@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="wsdl-first"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://ws.dhdigital.co.in.service"
+	xmlns:typens="http://ws.dhdigital.co.in.service/types"
+	targetNamespace="http://ws.dhdigital.co.in.service">
+	<wsdl:types>
+		<xsd:schema
+			targetNamespace="http://ws.dhdigital.co.in.service/types">
+			<xsd:element name="CreditCardDetailsRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="creditCardNumber" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="CreditCardDetailsResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="customerName" type="xsd:string" />
+						<xsd:element name="dateOfBirth" type="xsd:date" />
+						<xsd:element name="gender" type="xsd:string" />
+						<xsd:element name="cardNumber" type="xsd:string" />
+						<xsd:element name="cardType" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+					
+			<xsd:element name="error">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element minOccurs="0" name="reason"
+							type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="CreditCardDetailsRequest">
+		<wsdl:part name="request"
+			element="typens:CreditCardDetailsRequest" />
+	</wsdl:message>
+
+	<wsdl:message name="CreditCardDetailsResponse">
+		<wsdl:part name="response"
+			element="typens:CreditCardDetailsResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="ErrorMessage">
+		<wsdl:part name="error" element="typens:error" />
+	</wsdl:message>
+
+	<wsdl:portType name="CreditCardDetails">
+		<wsdl:operation name="getCreditCardDetails">
+			<wsdl:input message="tns:CreditCardDetailsRequest" />
+			<wsdl:output message="tns:CreditCardDetailsResponse" />
+			<wsdl:fault name="error" message="tns:ErrorMessage" />
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="CreditCardDetailsSOAPBinding"
+		type="tns:CreditCardDetails">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="getCreditCardDetails">
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="error">
+				<soap:fault name="error" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="CreditCardDetailsService">
+		<wsdl:port binding="tns:CreditCardDetailsSOAPBinding"
+			name="CreditCardDetailsPort">
+			<soap:address
+				location="http://localhost:8080/ws/creditCardDetailsService" />
+		</wsdl:port>
+	</wsdl:service>
+
+</wsdl:definitions>
+    

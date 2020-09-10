@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:cxf="http://camel.apache.org/schema/cxf"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd         http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd         http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd">
+    <bean
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" id="bean-68184f7e-64d9-46b8-95cc-0008b81008b7"/>
+    <bean class="in.co.dhdigital.services.CreditCardDetailsService" id="creditCardDetailsService"/>
+    <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
+        <route id="wsRoute">
+            <from id="_from1" uri="cxf:bean:creditCardDetailsServiceEndpoint"/>
+            <bean id="_bean1" ref="creditCardDetailsService"/>
+        </route>
+    </camelContext>
+    <cxf:cxfEndpoint
+        address="http://localhost:8080/ws/creditCardDetailsService"
+        id="creditCardDetailsServiceEndpoint" serviceClass="service.in.co.dhdigital.ws.CreditCardDetails"/>
+</beans>
